@@ -23,35 +23,50 @@ export async function getPartInfo(part_id) {
 
     try {
 
-        let page_content = null;
+        // let page_content = null;
 
         // Call scraper API to get the page content
-        await fetch(`https://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}&output_format=json&autoparse=true&render=true`)
-            .then(response => {
-                console.log(response)
-                page_content = response
-            })
-            .catch(error => {
-                console.log(error)
-            });
+        // await fetch(`https://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}&output_format=json&autoparse=true&render=true`)
+        //     .then(response => {
+        //         console.log(response)
+        //         page_content = response
+        //     })
+        //     .catch(error => {
+        //         console.log(error)
+        //     });
 
-        // Get the text from the response body and convert it into a String
-        const reader = page_content.body.getReader()
-        const decoder = new TextDecoder()
+        const response = await fetch(`https://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}&output_format=json&autoparse=true&render=true`)
 
-        let done = false
-        let text = ''
-
-        while (!done) {
-            const { value, done: doneReading } = await reader.read()
-            text += decoder.decode(value, { stream: true })
-            done = doneReading
+        if (!response.ok) {
+            throw new Error('Failed to fetch part information')
         }
+
+        const page_content = await response.json()
+
+        if (!page_content) {
+            throw new Error('Failed to fetch part information');
+        }
+
+
+        // // Get the text from the response body and convert it into a String
+        // const reader = page_content.body.getReader()
+        // const decoder = new TextDecoder()
+
+        // let done = false
+        // let text = ''
+
+        // while (!done) {
+        //     const { value, done: doneReading } = await reader.read()
+        //     text += decoder.decode(value, { stream: true })
+        //     done = doneReading
+        // }
+
+        const stringified_page_content = JSON.stringify(page_content)
 
         // Create a new entry in the database for this part
         const part = new Part({
             part_id,
-            part_info: text
+            part_info: stringified_page_content
         })
 
         console.log("Saving part to database")
@@ -59,7 +74,7 @@ export async function getPartInfo(part_id) {
 
         // console.log(text)
         // Return the text from the part page
-        return text;
+        return stringified_page_content;
 
     } catch (error) {
         console.log("Could not get part info: " + error)

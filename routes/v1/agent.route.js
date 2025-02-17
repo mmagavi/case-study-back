@@ -3,6 +3,6 @@ const agentController = require('../../controllers/agent.controller')
 
 const router = express.Router()
 
-router.route('/:text').get(agentController.response)
+router.route('/:text/:history').get(agentController.response)
 
 module.exports = router
