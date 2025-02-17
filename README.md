@@ -1,19 +1,6 @@
-# Node.js backend starter
+# Instalily Case Study Backend
 
 Starter kit for developing backend with Node.js
-
-## What is inside?
-
-- cors
-- express
-- helmet
-- mongoose
-- mongoSanitize
-- morgan
-- xss
-- eslint
-- nodemon
-- dotenv
 
 ### Run
 
