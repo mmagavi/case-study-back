@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const path = require('path')
 const xss = require('xss-clean')
-
+const dotenv = require('dotenv')
 const config = require('./config')
 
 const app = express()
@@ -22,7 +22,7 @@ app.use(xss())
 app.use(mongoSanitize())
 
 app.use(express.static(path.join(__dirname, 'public')))
-app.use('/api/v1', require('./routes/v1'))
+app.use('/api/v1', require('./routes/v1/'))
 app.use(require('./routes/errors').clientErrorHandler)
 app.use(require('./routes/errors').errorHandler)
 

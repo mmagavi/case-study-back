@@ -8,9 +8,6 @@ module.exports = {
   mongoose: {
     connectionString: process.env.DB_CONNECTION,
     options: {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       retryWrites: true
     }
   }
