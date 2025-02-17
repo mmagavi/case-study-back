@@ -1,6 +1,8 @@
 # Instalily Case Study Backend
 
-Starter kit for developing backend with Node.js
+Forked from starter kit for developing backend with Node.js
+
+Runs **locally** on port 3000
 
 ### Run
 
